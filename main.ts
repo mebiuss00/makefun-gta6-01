@@ -37,3 +37,6 @@ writeFileSync(
     game_path_max_bytes: 1000,
   }),
 );
+
+// Say what was handed in, so a local run is checkable at a glance.
+console.log(`Palmera Heat handed in to ${out}: game/ + screenshots/ + dossier.json`);

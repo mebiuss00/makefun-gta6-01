@@ -43,9 +43,9 @@ export function stageShot(name, state) {
     state.mission.objective = { x: marks.safehouse.door.x, y: marks.safehouse.door.y };
     state.mission.objectiveText = 'Get Leo to Casa Segura';
     const car = state.goldCar;
-    car.x = avenueX(3);
-    car.y = avenueY(2) + 25;
-    car.angle = 0;
+    car.x = avenueX(4);
+    car.y = avenueY(2) - 25;
+    car.angle = Math.PI;
     car.driver = 'player';
     state.player.car = car;
     state.player.x = car.x;
@@ -53,18 +53,18 @@ export function stageShot(name, state) {
     state.heat = 320;
     return {
       screen: SCREEN_PLAY,
-      steps: seconds(6),
+      steps: seconds(3.8),
       control(step, world) {
         const driven = world.player.car;
         if (!driven) return IDLE;
-        let diff = 0 - driven.angle;
+        let diff = Math.PI - driven.angle;
         while (diff > Math.PI) diff -= Math.PI * 2;
         while (diff < -Math.PI) diff += Math.PI * 2;
-        const drift = driven.y - (avenueY(2) + 25);
+        const drift = driven.y - (avenueY(2) - 25);
         return {
           ...IDLE,
           moveY: -1,
-          moveX: Math.abs(diff) > 0.05 ? Math.sign(diff) : (Math.abs(drift) > 26 ? (drift > 0 ? -1 : 1) : 0),
+          moveX: Math.abs(diff) > 0.05 ? Math.sign(diff) : (Math.abs(drift) > 26 ? (drift > 0 ? 1 : -1) : 0),
         };
       },
     };
@@ -75,6 +75,7 @@ export function stageShot(name, state) {
     state.mission.index = 3;
     state.mission.objective = null;
     state.mission.objectiveText = '';
+    state.notice = null;
     state.player.money = 1450;
     state.stats.earned = 1450;
     state.stats.jacked = 6;
